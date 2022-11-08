@@ -1,4 +1,3 @@
-# KAIshare-Lambda
 
 ### Database Connection  
   - Host : kaishare-db.c61emr7whdod.ap-northeast-2.rds.amazonaws.com  
