@@ -1,28 +1,28 @@
 import json
-
-def create_response(statuscode, data):
-    return {"statusCode" : statuscode, "body": json.dumps(data)}
-    
-def parse_event(event):
-    print(event)
-    result = {}
-    
-    if event['queryStringParameters']:
-        result.update(event['queryStringParameters'])
-    if event['pathParameters']:
-        result.update(event['pathParameters'])
-
-    return result
+import datetime
+import jwt
+from kaishare_utils import *
 
 
 def lambda_handler(event, context):
-    event = parse_event(event)
     
     try:
+        event = parse_event(event)
         name = event['name']
-        result = create_response(200, f"hello {name}")
+        payload = {
+            'id': name,
+            'iat': str(datetime.datetime.now()),
+        }
+        
+        token = jwt.encode({"token": payload}, "cs350team7800", algorithm = "HS256")
+        kk = {"Cookie": token}
+        parse, res = check_token(kk)
+        
+        result = create_response(200, f"hello {name}!", parse)
         
     except Exception as e:
-        result = create_response(400, "There is no name!")
+        result = create_response(400, str(e), parse)
     
+    
+    print("Response : ", result)
     return result
