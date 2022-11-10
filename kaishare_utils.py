@@ -58,4 +58,4 @@ def check_token(event):
         print("Exception Occured :", e)
         result = create_response(event, 401, "Incorrect Token.")
     
-    return token, result
+    return t_id, token, result
