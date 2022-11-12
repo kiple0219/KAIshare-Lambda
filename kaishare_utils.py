@@ -27,35 +27,37 @@ def create_response(statuscode, data, token=''):
 
 def check_token(event):
     token = event['Cookie']
+    token = token.split(' ')[-1]
+    user = ""
 
     try:
         check = jwt.decode(token, 'cs350team7800', algorithms = "HS256")
         
-        t_id = check['token']['id']
+        user = check['token']['id']
         t_iat = check['token']['iat']
 
         current_time = datetime.datetime.now()
         token_time = datetime.datetime.strptime(t_iat, "%Y-%m-%d %H:%M:%S.%f")
 
         token_age = (current_time-token_time).seconds
-        print(f"User Info : {t_id} used the application {str(token_age)} seconds")
+        print(f"User Info : {user} used the application {str(token_age)} seconds")
 
         if token_age >= 3600 :
             result = create_response(401, "Token has expired over time.")
 
         elif token_age >= 1800:
             payload = {
-                'id': t_id,
-                'iat': str(current_time)
+                'id': user,
+                'iat': str(current_time),
             }
             token = jwt.encode({"token": payload}, 'cs350team7800', algorithm = "HS256")
-            result = create_response(200, {"id": t_id, "Authorization": token})
+            result = create_response(200, {"id": user, "Authorization": token})
 
         else:
-            result = create_response(200, {"id": t_id, "Authorization": ""}, token)
+            result = create_response(200, {"id": user, "Authorization": ""}, token)
 
     except Exception as e:
         print("Exception Occured :", e)
-        result = create_response(event, 401, "Incorrect Token.")
+        result = create_response(401, "Incorrect Token.")
     
-    return t_id, token, result
+    return user, token, result
