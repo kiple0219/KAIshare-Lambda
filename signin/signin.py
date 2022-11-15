@@ -17,6 +17,10 @@ def execute(sql, flag=False):
 
 
 def signin(id, pw, phone):
+    mail = id.split('@')[-1]
+    if mail != "kaist.ac.kr":
+        return (400, "Id is not kaist mail.")
+
     sql1 = f"""SELECT count(*) FROM member WHERE m_id = '{id}';"""
     user = execute(sql1, True)
 
