@@ -22,12 +22,18 @@ def post_post(user, category, nick, title, content, product, capacity, time, pla
     now = now.strftime('%Y-%m-%d %H:%M:%S')
     content = content.replace("\'", "\''")
 
-    sql1 = f"""INSERT INTO post SET m_id = '{user}', p_nickname = '{nick}', p_title = '{title}', p_content = '{content}',
-            p_status = "active", p_category = '{category}', p_product = '{product}', p_capacity = {capacity}, p_joins = 1,
-            p_time = '{time}', p_place = '{place}', p_price = {price}, p_upload = '{now}';"""
-
     try:
+        sql1 = f"""INSERT INTO post SET m_id = '{user}', p_nickname = '{nick}', p_title = '{title}', p_content = '{content}',
+                p_status = "active", p_category = '{category}', p_product = '{product}', p_capacity = {capacity}, p_joins = 1,
+                p_time = '{time}', p_place = '{place}', p_price = {price}, p_upload = '{now}';"""
         execute(sql1)
+
+        sql2 = f"""SELECT p_id FROM post WHERE m_id = '{user}' order by p_id desc"""
+        p_id = execute(sql2, True)[0][0]
+
+        sql3 = f"""INSERT INTO joining SET m_id = '{user}', p_id = {p_id};"""
+        execute(sql3)
+        
         result = (200, "Posting Successed.")
 
     except Exception as e:
