@@ -26,7 +26,7 @@ def post_get(category, type, keyword):
         
         for post in posts:
             res_dic = {
-                'p_id': post[0],
+                'p_id': str(post[0]),
                 'nickname': post[1],
                 'title': post[2],
                 'upolad': str(post[3])
