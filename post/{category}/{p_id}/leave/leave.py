@@ -20,9 +20,9 @@ def execute(sql, flag=False):
 def leave(user, p_id):
     try:
         sql1 = f"""SELECT p_joins, p_status FROM post WHERE p_id = {p_id};"""
-        post = execute(sql1, True)
-        joins = post[0][0] - 1
-        status = post[0][1]
+        post = execute(sql1, True)[0]
+        joins = post[0] - 1
+        status = post[1]
 
         if status != 'active':
             return (400, "This event is closed.")

@@ -20,10 +20,10 @@ def execute(sql, flag=False):
 def join(user, p_id):
     try:
         sql1 = f"""SELECT p_capacity, p_joins, p_status FROM post WHERE p_id = {p_id};"""
-        post = execute(sql1, True)
-        capacity = post[0][0]
-        joins = post[0][1]
-        status = post[0][2]
+        post = execute(sql1, True)[0]
+        capacity = post[0]
+        joins = post[1]
+        status = post[2]
 
         if joins >= capacity:
             return (400, "This event is fulled.")
@@ -65,6 +65,7 @@ def lambda_handler(event, context):
                             port=3306, user='admin', passwd='team7800', db='KAIshare', charset='utf8')
 
         p_id = int(event['p_id'])
+
         sc, dt = join(user, p_id)
         result = create_response(sc, dt, tk)
         
