@@ -18,7 +18,7 @@ def execute(sql, flag=False):
 
 def post_get(category, type, keyword):
     if type == 'all':
-        sql1 = f"""SELECT p_id, p_nickname, p_title, p_upload FROM post WHERE p_category = '{category}' order by p_id desc;"""
+        sql1 = f"""SELECT p_id, p_nickname, p_title, p_status, p_upload FROM post WHERE p_category = '{category}' order by p_id desc;"""
 
     try:
         posts = execute(sql1, True)
@@ -26,10 +26,8 @@ def post_get(category, type, keyword):
         
         for post in posts:
             res_dic = {
-                'p_id': str(post[0]),
-                'nickname': post[1],
-                'title': post[2],
-                'upolad': str(post[3])
+                'p_id': str(post[0]), 'nickname': post[1], 'title': post[2], 
+                'status': post[3], 'upolad': str(post[4])
             }
             res_list.append(res_dic)
         
@@ -37,7 +35,7 @@ def post_get(category, type, keyword):
 
     except Exception as e:
         print("Error : ", e)
-        result = (400, "Loading posts are failed.")
+        result = (400, "Loading posts failed.")
 
     return result
 
