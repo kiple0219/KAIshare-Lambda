@@ -30,7 +30,7 @@ def comment_post(user, p_id, nick, content):
 
     except Exception as e:
         print("Error : ", e)
-        result = (400, "Comment Uploading failed.")
+        result = (400, "Comment Uploading Failed.")
 
     return result
 

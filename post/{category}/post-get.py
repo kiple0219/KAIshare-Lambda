@@ -18,7 +18,8 @@ def execute(sql, flag=False):
 
 def post_get(category, type, keyword):
     if type == 'all':
-        sql1 = f"""SELECT p_id, p_nickname, p_title, p_status, p_upload FROM post WHERE p_category = '{category}' order by p_id desc;"""
+        sql1 = f"""SELECT p_id, p_nickname, p_title, p_status, p_upload FROM post \
+                WHERE p_category = '{category}' and p_status <> 'disable' order by p_id desc;"""
 
     try:
         posts = execute(sql1, True)
