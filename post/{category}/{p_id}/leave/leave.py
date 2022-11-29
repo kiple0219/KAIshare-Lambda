@@ -19,13 +19,17 @@ def execute(sql, flag=False):
 
 def leave(user, p_id):
     try:
-        sql1 = f"""SELECT p_joins, p_status FROM post WHERE p_id = {p_id};"""
+        sql1 = f"""SELECT p_joins, p_status, m_id FROM post WHERE p_id = {p_id};"""
         post = execute(sql1, True)[0]
         joins = post[0] - 1
         status = post[1]
+        poster = post[2]
 
         if status != 'active':
             return (400, "This event is closed.")
+        
+        if user == poster:
+            return (400, "Poster can't leave the event.")
 
         sql1 = f"""SELECT m_id FROM joining WHERE p_id = {p_id};"""
         joiners = execute(sql1, True)
@@ -47,7 +51,7 @@ def leave(user, p_id):
 
     except Exception as e:
         print("Error : ", e)
-        result = (400, "Joining failed.")
+        result = (400, "Leaving failed.")
 
     return result
 
