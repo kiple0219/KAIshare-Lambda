@@ -42,10 +42,10 @@ def check_token(event):
         token_age = (current_time-token_time).seconds
         print(f"User Info : {user} used the application {str(token_age)} seconds")
 
-        if token_age >= 3600 :
+        if token_age >= 36000:
             result = create_response(401, "Token has expired over time.")
 
-        elif token_age >= 1800:
+        elif token_age >= 18000:
             payload = {
                 'id': user,
                 'iat': str(current_time),
