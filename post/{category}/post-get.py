@@ -16,14 +16,14 @@ def execute(sql, flag=False):
         return None
 
 
-def post_get(category, nickname, title, content, product, place, status, capacity, price, time):
+def post_get(category, nickname, title, content, product, place, status, capacity, price, time_from, time_to):
     sql1 = f"""SELECT p_id, p_nickname, p_title, p_status, p_upload FROM post \
             WHERE p_category = '{category}' and p_status <> 'disable' \
             and p_nickname like '%{nickname}%' and p_title like '%{title}%' \
             and p_content like '%{content}%' and p_product like '%{product}%' \
             and p_place like '%{place}%' and p_status like '%{status}%' \
             and p_capacity <= {capacity} and p_price <= {price} \
-            and p_time <= '{time}'order by p_id desc;"""
+            and p_time >= '{time_from}' and p_time <= '{time_to}'order by p_id desc;"""
 
     try:
         posts = execute(sql1, True)
@@ -60,7 +60,7 @@ def lambda_handler(event, context):
         category = event['category']
         nickname, title, content, product, place, status = '', '', '', '', '', ''
         capacity, price = 1000, 10000000
-        time = '2999-01-01'
+        time_from, time_to = '1999-01-01', '2999-01-01'
 
         if 'nickname' in event:
             nickname = event['nickname']
@@ -78,10 +78,12 @@ def lambda_handler(event, context):
             capacity = event['capacity']
         if 'price' in event:
             price = event['price']
-        if 'time' in event:
-            time = event['time']
+        if 'time_from' in event:
+            time_from = event['time_from']
+        if 'time_to' in event:
+            time_to = event['time_to']
 
-        sc, dt = post_get(category, nickname, title, content, product, place, status, capacity, price, time)
+        sc, dt = post_get(category, nickname, title, content, product, place, status, capacity, price, time_from, time_to)
         result = create_response(sc, dt, tk)
         
     except Exception as e:
