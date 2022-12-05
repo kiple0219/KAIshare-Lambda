@@ -22,7 +22,8 @@ def parse_event(event):
 
 
 def create_response(statuscode, data, token=''):
-    return {"statusCode" : statuscode, "body": json.dumps(data), "headers": {"Set-Cookie": token} }
+    return {"statusCode" : statuscode, "body": json.dumps(data), "headers": {"Access-Control-Allow-Headers": "Content-Type", "Access-Control-Allow-Origin": "*", \
+             "Access-Control-Allow-Methods": "OPTIONS,GET,POST,PATCH,PUT", "Access-Control-Allow-Credentials": "true", "Set-Cookie": token} }
 
 
 def check_token(event):
