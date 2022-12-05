@@ -16,10 +16,14 @@ def execute(sql, flag=False):
         return None
 
 
-def post_get(category, type, keyword):
-    if type == 'all':
-        sql1 = f"""SELECT p_id, p_nickname, p_title, p_status, p_upload FROM post \
-                WHERE p_category = '{category}' and p_status <> 'disable' order by p_id desc;"""
+def post_get(category, nickname, title, content, product, place, status, capacity, price, time):
+    sql1 = f"""SELECT p_id, p_nickname, p_title, p_status, p_upload FROM post \
+            WHERE p_category = '{category}' and p_status <> 'disable' \
+            and p_nickname like '%{nickname}%' and p_title like '%{title}%' \
+            and p_content like '%{content}%' and p_product like '%{product}%' \
+            and p_place like '%{place}%' and p_status like '%{status}%' \
+            and p_capacity <= {capacity} and p_price <= {price} \
+            and p_time <= '{time}'order by p_id desc;"""
 
     try:
         posts = execute(sql1, True)
@@ -54,9 +58,30 @@ def lambda_handler(event, context):
                             port=3306, user='admin', passwd='team7800', db='KAIshare', charset='utf8')
 
         category = event['category']
-        type, keyword = event['type'], event['keyword']
+        nickname, title, content, product, place, status = '', '', '', '', '', ''
+        capacity, price = 1000, 10000000
+        time = '2999-01-01'
 
-        sc, dt = post_get(category, type, keyword)
+        if 'nickname' in event:
+            nickname = event['nickname']
+        if 'title' in event:
+            title = event['title']
+        if 'content' in event:
+            content = event['content']
+        if 'product' in event:
+            product = event['product']
+        if 'place' in event:
+            place = event['place']
+        if 'status' in event:
+            status = event['status']
+        if 'capacity' in event:
+            capacity = event['capacity']
+        if 'price' in event:
+            price = event['price']
+        if 'time' in event:
+            time = event['time']
+
+        sc, dt = post_get(category, nickname, title, content, product, place, status, capacity, price, time)
         result = create_response(sc, dt, tk)
         
     except Exception as e:
