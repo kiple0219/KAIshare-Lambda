@@ -34,7 +34,7 @@ def create_response(event, statuscode, data, token=''):
             "headers": {
                         "Access-Control-Allow-Headers": "Content-Type", 
                         "Access-Control-Allow-Origin": origin,
-                        "Access-Control-Allow-Methods": "OPTIONS,GET,POST,PATCH,PUT", 
+                        "Access-Control-Allow-Methods": "OPTIONS,GET,POST,PATCH,PUT,DELETE", 
                         "Access-Control-Allow-Credentials": "true", 
                         "Set-Cookie": "Token=" + token + '; Path=/; HttpOnly; SameSite=None; Secure;'
                         }, 
