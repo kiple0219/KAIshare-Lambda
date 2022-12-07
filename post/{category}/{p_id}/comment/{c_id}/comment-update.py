@@ -55,11 +55,11 @@ def lambda_handler(event, context):
         nick, content = event['nickname'], event['content']
 
         sc, dt = comment_update(user, c_id, nick, content)
-        result = create_response(sc, dt, tk)
+        result = create_response(event, sc, dt, tk)
         
     except Exception as e:
         print("Error : ", e)
-        result = create_response(500, "Internal server error occured.", tk)
+        result = create_response(event, 500, "Internal server error occured.", tk)
     
     
     print("Response : ", result)

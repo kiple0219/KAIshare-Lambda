@@ -48,11 +48,11 @@ def lambda_handler(event, context):
         id, pw = event['id'], event['password']
 
         sc, dt, tk = login(id, pw)
-        result = create_response(sc, dt, tk)
+        result = create_response(event, sc, dt, tk)
         
     except Exception as e:
         print("Error : ", e)
-        result = create_response(500, "Internal server error occured.")
+        result = create_response(event, 500, "Internal server error occured.")
     
     
     print("Response : ", result)

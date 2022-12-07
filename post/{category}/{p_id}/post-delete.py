@@ -58,11 +58,11 @@ def lambda_handler(event, context):
 
         p_id = int(event['p_id'])
         sc, dt = post_delete(p_id, user)
-        result = create_response(sc, dt, tk)
+        result = create_response(event, sc, dt, tk)
         
     except Exception as e:
         print("Error : ", e)
-        result = create_response(500, "Internal server error occured.", tk)
+        result = create_response(event, 500, "Internal server error occured.", tk)
     
     
     print("Response : ", result)

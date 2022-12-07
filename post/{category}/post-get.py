@@ -84,11 +84,11 @@ def lambda_handler(event, context):
             time_to = event['time_to']
 
         sc, dt = post_get(category, nickname, title, content, product, place, status, capacity, price, time_from, time_to)
-        result = create_response(sc, dt, tk)
+        result = create_response(event, sc, dt, tk)
         
     except Exception as e:
         print("Error : ", e)
-        result = create_response(500, "Internal server error occured.", tk)
+        result = create_response(event, 500, "Internal server error occured.", tk)
     
     
     print("Response : ", result)

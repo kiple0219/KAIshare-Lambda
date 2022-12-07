@@ -46,11 +46,11 @@ def lambda_handler(event, context):
         id, pw, phone = event['id'], event['password'], event['phone']
 
         sc, dt = signin(id, pw, phone)
-        result = create_response(sc, dt)
+        result = create_response(event, sc, dt)
         
     except Exception as e:
         print("Error : ", e)
-        result = create_response(500, "Internal server error occured.")
+        result = create_response(event, 500, "Internal server error occured.")
     
     
     print("Response : ", result)
