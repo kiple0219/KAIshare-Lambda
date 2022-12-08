@@ -10,6 +10,8 @@
   - POST : https://10x53vstw6.execute-api.ap-northeast-2.amazonaws.com/production/signin
 - login
   - POST : https://10x53vstw6.execute-api.ap-northeast-2.amazonaws.com/production/login
+- logout
+  - POST : https://10x53vstw6.execute-api.ap-northeast-2.amazonaws.com/production/logout
 - post
   - {category}
     - GET : https://10x53vstw6.execute-api.ap-northeast-2.amazonaws.com/production/post/{category}
