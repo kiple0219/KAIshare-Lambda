@@ -60,7 +60,7 @@ def lambda_handler(event, context):
         category = event['category']
         nickname, title, content, product, place, status = '', '', '', '', '', ''
         capacity, price = 1000, 10000000
-        time_from, time_to = '1999-01-01', '2999-01-01'
+        time_from, time_to = '0000-00-00', '2999-01-01'
 
         if 'nickname' in event:
             nickname = event['nickname']

@@ -59,6 +59,15 @@ def lambda_handler(event, context):
         nick, title, content, product = event['nickname'], event['title'], event['content'], event['product']
         capacity, time, place, price = event['capacity'], event['time'], event['place'], event['price']
 
+        if nick == '':
+            nick = "Unknown"
+        if title == '':
+            title = "No Title"
+        if product == '':
+            product = "TBD"
+        if place == '':
+            place = "TBD"
+
         sc, dt = post_post(user, category, nick, title, content, product, capacity, time, place, price)
         result = create_response(event, sc, dt, tk)
         
